@@ -12,6 +12,8 @@ services:
     ports:
       - 3306:3306
     restart: unless-stopped
+    networks:
+      - iot-net
   phpmyadmin:
     image: phpmyadmin
     container_name: phpmyadmin
@@ -23,6 +25,8 @@ services:
       - 8080:80
     depends_on:
       - mariadb
+    networks:
+      - iot-net
   clientemqtt:
     image: clientemqtt
     container_name: clientemqtt
@@ -99,6 +103,8 @@ services:
       - ${PUERTO}:443/tcp
       - 80:80
     restart: unless-stopped
+    networks:
+      - iot-net
   telegrambot:
     image: telegrambot
     container_name: telegrambot
@@ -128,5 +134,11 @@ services:
     restart: unless-stopped
     depends_on:
       - mariadb
+    networks:
+      - iot-net
 volumes:
   portainer_data:
+
+networks:
+  iot-net:
+    external: true
